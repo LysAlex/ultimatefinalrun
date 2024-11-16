@@ -50,7 +50,7 @@ module.exports = {
             await interaction.showModal(modal);
 
             const filter = (interaction) => interaction.customId === 'askInformation';
-            interaction.awaitModalSubmit({ filter, time: 15_000 })
+            interaction.awaitModalSubmit({ filter, time: 150000 })
                 .then(interaction => {
                     const member = interaction.fields.getTextInputValue('memberInput');
                     const infos = interaction.fields.getTextInputValue('infosInput');
