@@ -1,4 +1,4 @@
-const { Events, Collection } = require('discord.js');
+const { Events, Collection, ModalBuilder, TextInputBuilder, ActionRowBuilder, TextInputStyle, time  } = require('discord.js');
 
 module.exports = {
 	name: Events.InteractionCreate,
@@ -15,6 +15,50 @@ module.exports = {
 
         if (!cooldowns.has(command.data.name)) {
             cooldowns.set(command.data.name, new Collection());
+        }
+
+        if (interaction.commandName === 'ask') {
+            const modal = new ModalBuilder()
+                .setCustomId('askInformation')
+                .setTitle('Ask some informations');
+    
+            // Create the text input components
+            const memberInput = new TextInputBuilder()
+                .setCustomId('memberInput')
+                // The label is the prompt the user sees for this input
+                .setLabel("Which member for information ?")
+                // Short means only a single line of text
+                .setStyle(TextInputStyle.Short)
+                .setMaxLength(1_000);
+            
+            const infosInput = new TextInputBuilder()
+            .setCustomId('infosInput')
+            .setLabel("What do you want to ask?")
+            // Paragraph means multiple lines of text.
+            .setStyle(TextInputStyle.Paragraph)
+            .setMaxLength(1_000);
+
+            // An action row only holds one text input,
+            // so you need one action row per text input.
+            const firstActionRow = new ActionRowBuilder().addComponents(memberInput);
+            const secondActionRow = new ActionRowBuilder().addComponents(infosInput);
+
+            // Add inputs to the modal
+            modal.addComponents(firstActionRow, secondActionRow);
+
+            // Show the modal to the user
+            await interaction.showModal(modal);
+
+            const filter = (interaction) => interaction.customId === 'askInformation';
+            interaction.awaitModalSubmit({ filter, time: 15_000 })
+                .then(interaction => {
+                    const member = interaction.fields.getTextInputValue('memberInput');
+                    const infos = interaction.fields.getTextInputValue('infosInput');
+                    console.log({ member, infos });
+                    interaction.reply({ content: 'They receive your request!' });
+                })
+                .catch(console.error);
+
         }
 
         const now = Date.now();
