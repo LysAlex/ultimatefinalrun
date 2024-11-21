@@ -5,7 +5,6 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('ask')
 		.setDescription('Ask some informations about Fallen Apotheosis or Outer Empyreans!'),
-	async execute(interaction) {
-        
+	async execute(interaction) {       
 	},
 };

@@ -1,4 +1,4 @@
-const { Events, Collection, ModalBuilder, TextInputBuilder, ActionRowBuilder, TextInputStyle, time  } = require('discord.js');
+const { Events, Collection, ModalBuilder, TextInputBuilder, ActionRowBuilder, TextInputStyle, time, RoleManager  } = require('discord.js');
 
 module.exports = {
 	name: Events.InteractionCreate,
@@ -59,6 +59,22 @@ module.exports = {
                 })
                 .catch(console.error);
 
+        }
+
+        if (interaction.commandName === 'color_role') {
+            const roles = interaction.member.roles.cache;
+            const color = interaction.options._hoistedOptions[0].value;
+            var reg = /^#[0-9A-F]{6}$/i;
+            for (const role of roles) {
+                if (role[0] != '1273610939693928479'){
+                    if (reg.test(color)){
+                        role[1].setColor(color)
+                        interaction.reply('Color changed!');
+                    } else {
+                        interaction.reply('You have to put your code color properly!');
+                    }
+                }
+            }
         }
 
         const now = Date.now();
