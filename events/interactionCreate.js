@@ -61,6 +61,41 @@ module.exports = {
 
         }
 
+        if (interaction.commandName === 'steal') {
+            const modal = new ModalBuilder()
+                .setCustomId('stealMoney')
+                .setTitle('Steal some money');
+    
+            // Create the text input components
+            const memberInput = new TextInputBuilder()
+                .setCustomId('memberInput')
+                // The label is the prompt the user sees for this input
+                .setLabel("Which member to steal money ?")
+                // Short means only a single line of text
+                .setStyle(TextInputStyle.Short)
+                .setMaxLength(1_000);
+            
+            // An action row only holds one text input,
+            // so you need one action row per text input.
+            const firstActionRow = new ActionRowBuilder().addComponents(memberInput);
+
+            // Add inputs to the modal
+            modal.addComponents(firstActionRow);
+
+            // Show the modal to the user
+            await interaction.showModal(modal);
+
+            const filter = (interaction) => interaction.customId === 'stealMoney';
+            interaction.awaitModalSubmit({ filter, time: 150000 })
+                .then(interaction => {
+                    const member = interaction.fields.getTextInputValue('memberInput');
+                    const money = Math.floor(Math.random() * 20);
+                    interaction.reply({ content: 'You steal '+ money + ' RC from '+ member +'!' });
+                })
+                .catch(console.error);
+
+        }
+
         if (interaction.commandName === 'color_role') {
             const roles = interaction.member.roles.cache;
             const color = interaction.options._hoistedOptions[0].value;
