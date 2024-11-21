@@ -1,7 +1,7 @@
 {
   "name": "ultimatefinalrun",
   "version": "1.0.0",
-  "description": "Bots for Ultimate Final Run",
+  "description": "Bot for Ultimate Final Run",
   "main": "index.js",
   "scripts": {
     "ufr": "npx nodemon"

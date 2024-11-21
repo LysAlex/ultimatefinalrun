@@ -19,14 +19,14 @@ module.exports = {
 
         if (interaction.commandName === 'ask') {
             const modal = new ModalBuilder()
-                .setCustomId('askInformation')
-                .setTitle('Ask some informations');
+                .setCustomId('askInfoService')
+                .setTitle('Ask infos or services');
     
             // Create the text input components
             const memberInput = new TextInputBuilder()
                 .setCustomId('memberInput')
                 // The label is the prompt the user sees for this input
-                .setLabel("Which member for information ?")
+                .setLabel("Which member for info or service ?")
                 // Short means only a single line of text
                 .setStyle(TextInputStyle.Short)
                 .setMaxLength(1_000);
@@ -49,7 +49,7 @@ module.exports = {
             // Show the modal to the user
             await interaction.showModal(modal);
 
-            const filter = (interaction) => interaction.customId === 'askInformation';
+            const filter = (interaction) => interaction.customId === 'askInfoService';
             interaction.awaitModalSubmit({ filter, time: 150000 })
                 .then(interaction => {
                     const member = interaction.fields.getTextInputValue('memberInput');
