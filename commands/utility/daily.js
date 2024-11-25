@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
-    cooldown: 5,
+    cooldown: 86400,
 	data: new SlashCommandBuilder()
 		.setName('claim')
 		.setDescription('Claim money daily!'),
