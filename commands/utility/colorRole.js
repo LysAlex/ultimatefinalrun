@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Options } = require('discord.js');
+const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
     cooldown: 5,
